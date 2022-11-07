@@ -13,8 +13,8 @@ HADESDBG_TEST_OUT_32=./test/bin/x86
 HADESDBG_TEST_OUT_64=./test/bin/x64
 
 ASMJIT_NAME=asmjit
-ASMJIT_32_FLAGS=-DCMAKE_CXX_FLAGS=-m32 -DCMAKE_SHARED_LINKER_FLAGS=-m32
-ASMJIT_64_FLAGS=-DCMAKE_CXX_FLAGS=-m64 -DCMAKE_SHARED_LINKER_FLAGS=-m64
+ASMJIT_32_FLAGS=-DCMAKE_CXX_FLAGS=-m32 -DCMAKE_SHARED_LINKER_FLAGS=-m32 -DASMJIT_STATIC=ON
+ASMJIT_64_FLAGS=-DCMAKE_CXX_FLAGS=-m64 -DCMAKE_SHARED_LINKER_FLAGS=-m64 -DASMJIT_STATIC=ON
 ASMJIT_INC=lib/asmjit/src
 ASMJIT_OUT=lib/asmjit/bin
 
@@ -29,7 +29,7 @@ LIB_64_DIR=x64
 
 CC=g++
 COMPILE_FLAGS=-std=c++17 -lrt
-RELEASE_FLAGS=-static-libstdc++
+RELEASE_FLAGS=-static
 COMPILE_32_FLAGS=-m32
 COMPILE_64_FLAGS=-m64
 QUIET_MODE=> /dev/null
@@ -50,12 +50,12 @@ bin/lib:
 	@mkdir -p $(ASMJIT_OUT)
 	@echo "Compiling 32bit version..."
 	@cd $(ASMJIT_OUT) && sh -c 'cmake $(ASMJIT_32_FLAGS) .. $(SILENT_MODE)' $(QUIET_MODE) && make $(QUIET_MODE)
-	@mv $(ASMJIT_OUT)/libasmjit.so $(HADESDBG_OUT_LIB)/$(LIB_32_DIR)/
+	@mv $(ASMJIT_OUT)/libasmjit.a $(HADESDBG_OUT_LIB)/$(LIB_32_DIR)/
 	@rm -rf $(ASMJIT_OUT)
 	@mkdir -p $(ASMJIT_OUT)
 	@echo "Compiling 64bit version..."
 	@cd $(ASMJIT_OUT) && sh -c 'cmake $(ASMJIT_64_FLAGS) .. $(SILENT_MODE)' $(QUIET_MODE) && make $(QUIET_MODE)
-	@mv $(ASMJIT_OUT)/libasmjit.so $(HADESDBG_OUT_LIB)/$(LIB_64_DIR)/
+	@mv $(ASMJIT_OUT)/libasmjit.a $(HADESDBG_OUT_LIB)/$(LIB_64_DIR)/
 	@rm -rf $(ASMJIT_OUT)
 	@echo "Compiling simpleson..."
 	@mkdir -p $(SIMPLESON_OUT)
